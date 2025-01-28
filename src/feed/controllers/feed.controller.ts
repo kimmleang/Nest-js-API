@@ -1,7 +1,8 @@
 import { Observable } from 'rxjs';
 import { FeedPost } from '../models/post_interface';
 import { FeedService } from './../services/feed.service';
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put, Param } from '@nestjs/common';
+import { HttpCode, HttpStatus } from '@nestjs/common';
 
 @Controller('feed') //endpoint
 export class FeedController {
@@ -11,8 +12,12 @@ export class FeedController {
     ){}
 
     @Post()
-    create(@Body() post: FeedPost){
-        return this.feedService.createPost(post)
+    create(@Body() post: FeedPost): Observable<FeedPost> {
+        return this.feedService.createPost(post);
     }
 
+    @Get()
+    findAll(): Observable<FeedPost[]> {
+        return this.feedService.findAllPosts();
+    }
 }
